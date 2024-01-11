@@ -32,7 +32,7 @@ const App: FC<Props> = ({ userId = '1', userMsgId = '2' }) => {
         const index = state.findIndex((item: FeedType) => item.id === action.payload.id);
         return [ ...state.slice(0, index),
           { ...action.payload },
-          ...state.slice(index)]
+          ...state.slice(index)].sort((a: FeedType, b:FeedType) => a.timestamp - b.timestamp)
       }
       case 'feedDelete': {
         return state.filter((item: FeedType) => item.id !== action.payload)
