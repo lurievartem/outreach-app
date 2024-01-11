@@ -1,9 +1,9 @@
 import React, { FC, memo, useState, ChangeEventHandler, SyntheticEvent } from 'react';
-import { FeedType } from '../App';
-import { feedActions, FeedActionType } from '../utils/feedActions';
+import { FeedType } from '../../hooks/useFeedReducer';
+import { feedActions, FeedActionType } from '../../utils/feedActions';
 
 type Props = {
-  addHandler: (data: Omit<FeedType, 'id' | 'userId' | 'userMsgId'>) => void;
+  addHandler: (data: Omit<FeedType, 'id' | 'userId'>) => void;
 };
 
 const AddFeed: FC<Props>= ({ addHandler }) => {
@@ -15,7 +15,7 @@ const AddFeed: FC<Props>= ({ addHandler }) => {
 
     if(msg && feedActionType) {
       const timestamp = (new Date()).getTime();
-      addHandler({ timestamp, msg, type: feedActionType });
+      addHandler({ timestamp, msg, type: feedActionType, userMsgId: '2' });
     }
   };
 
@@ -28,17 +28,18 @@ const AddFeed: FC<Props>= ({ addHandler }) => {
   }
 
   return (
-    <form>
+    <form data-testid='addFeed'>
       <input
+        data-testid='addFeed-input'
         type="text"
         value={msg}
         onChange={handleInput}
       />
       <div>
         {feedActions.map((action: FeedActionType) =>
-          <div onClick={() => handleChangeActionType(action.name)}>{action.icon}</div>)}
+          <div key={action.name} onClick={() => handleChangeActionType(action.name)}>{action.icon}</div>)}
       </div>
-      <button disabled={!msg} onClick={submitHandler}>
+      <button data-testid='addFeed-submit' disabled={!msg} onClick={submitHandler}>
         Submit
       </button>
     </form>
