@@ -1,4 +1,39 @@
-.container {
-  border-left: 1px solid rgba(96, 89, 93, 0.8);
-  max-width: 600px;
+.feedContainer {
+  background-color: rgba(246,246,246,255);
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+.feedMessageBlock {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.feedTextBold {
+  color: rgba(18,163,194,255);
+  font-weight: bold;
+}
+
+.feedSmallText {
+  font-size: small;
+}
+
+.popover {
+  background-color: white;
+  padding: 10px;
+}
+
+.feedDay {
+  display: flex;
+  justify-content: space-between;
+  width: 50px;
+  position: absolute;
+  left: 60px;
+  padding-top: 5px;
+}
+
+.popoverContainer {
+  line-height: 79px;
 }

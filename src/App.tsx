@@ -1,23 +1,18 @@
-import React, { FC } from 'react';
+import React from 'react';
 import AddFeed from './components/AddFeed/AddFeed';
 import Feed from './components/Feed/Feed';
 import { useFeedReducer } from './hooks/useFeedReducer';
 
 import './App.css'
 
-type Props = {
-  userId: string;
-  userMsgId: string;
-}
-
-const App: FC<Props> = () => {
+const App = () => {
   const { feeds, handleFeedAdd, handleFeedDelete } = useFeedReducer();
 
   return (
-    <div>
+    <div className="container">
       <AddFeed addHandler={handleFeedAdd}/>
       {feeds.map((feed) =>
-        <Feed feed={feed} deleteHandler={handleFeedDelete} />
+        <Feed key={feed.id} feed={feed} deleteHandler={handleFeedDelete} />
       )}
     </div>
   );

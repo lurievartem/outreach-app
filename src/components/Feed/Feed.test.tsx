@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { render, screen } from '@testing-library/react';
 import Feed from './Feed';
 import { feedActions } from '../../utils/feedActions';
@@ -9,7 +9,7 @@ const differenceMs = Math.abs((new Date()).getTime() - ONE_DAY);
 
 const feed = { id: '2', msg: 'message', timestamp: differenceMs, userId: '1', userMsgId: '2', type: feedActions[0].name };
 
-const wrapper = ({ children }) => (
+const wrapper = ({ children }: { children: ReactNode}) => (
   <UserProvider >{children}</UserProvider>
 );
 

@@ -12,9 +12,9 @@ export interface FeedType {
   msg: string;
 };
 
-type FeedAdd = { type: 'feedAdd', payload: Omit<FeedType, 'id'> };
-type FeedEdit = { type: 'feedEdit', payload: FeedType };
-type FeedDelete = { type: 'feedDelete', payload: string };
+export type FeedAdd = { type: 'feedAdd', payload: Omit<FeedType, 'id'> };
+export type FeedEdit = { type: 'feedEdit', payload: FeedType };
+export type FeedDelete = { type: 'feedDelete', payload: string };
 
 export const feedReducer = (state: FeedType[], action: FeedAdd | FeedEdit | FeedDelete) => {
   switch (action.type) {

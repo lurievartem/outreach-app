@@ -1,9 +1,12 @@
-import React, { FC, memo } from 'react';
-import { FeedType } from '../../App';
+import React, { FC, memo, useState } from 'react';
+import { Popover } from 'react-tiny-popover';
+import { FeedType } from '../../hooks/useFeedReducer';
 import { getFeedActionText, getFeedActionIcon } from '../../utils/feedActions';
 import { getUserNameById } from '../../utils/users';
 import { calculateDaysBetween } from '../../utils/calculateDaysBetween';
 import { useUserData } from '../../providers/userContext';
+
+import './Feed.css';
 
 type Props = {
   feed: FeedType;
@@ -11,22 +14,42 @@ type Props = {
 };
 
 const Feed: FC<Props>= ({ feed, deleteHandler }) => {
+  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
   const { user } = useUserData();
+  const Icon = getFeedActionIcon(feed.type);
+
   const handleDelete = () => {
     deleteHandler(feed.id);
   }
 
   return (
-    <div key={feed.id}>
-      <div data-testid='feed-time'>{calculateDaysBetween(feed.timestamp)}d</div>
-      <div>{getFeedActionIcon(feed.type)}</div>
-      <div>
-        <p data-testid='feed-header'>{`${getUserNameById(user.userId)} ${getFeedActionText(feed.type)} ${getUserNameById(feed.userMsgId)}`}</p>
-        <p data-testid='feed-msg'>{feed.msg}</p>
+    <div className='feedContainer'>
+      <div className='feedDay'>
+        <div data-testid='feed-time'>{calculateDaysBetween(feed.timestamp)}d</div>
+        {Icon && <Icon height="20" width="20" />}
       </div>
-      <div>
-        <button popovertarget="mypopover" onClcik={handleDelete}>Delete</button>
-        <div id="mypopover" popover>Popover content</div>
+      <div className="feedMessageBlock">
+        <div>
+          <p data-testid='feed-header'>
+            <span className='feedTextBold'>{getUserNameById(user.userId)}</span>
+            <span> {`${getFeedActionText(feed.type)} `}</span>
+            <span className='feedTextBold'>{getUserNameById(feed.userMsgId)}</span>
+          </p>
+          <p data-testid='feed-msg' className='feedSmallText'>{feed.msg}</p>
+        </div>
+        <div className='popoverContainer'>
+          <Popover
+            containerStyle={{ lineHeight: '79px;' }}
+            isOpen={isPopoverOpen}
+            onClickOutside={() => setIsPopoverOpen(!isPopoverOpen)}
+            positions={['top', 'bottom', 'left', 'right']} // preferred positions by priority
+            content={<div className="popover" onClick={handleDelete}>Delete</div>}
+          >
+            <div onClick={() => setIsPopoverOpen(!isPopoverOpen)}>
+              Popover
+            </div>
+          </Popover>
+        </div>
       </div>
     </div>
   );
